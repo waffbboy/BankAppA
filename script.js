@@ -76,32 +76,31 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-displayMovements(account1.movements);
 
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce((accum, mov) => accum + mov, 0);
-  labelBalance.textContent = `${balance} €`;
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((accum, mov) => accum + mov, 0);
+
+  labelBalance.textContent = `${acc.balance} €`;
 };
-calcDisplayBalance(account1.movements);
-const calcDisplaySummary = function (movements) {
-  const incomes = movements
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((accum, mov) => accum + mov, 0); //accum stands for accumulator
   labelSumIn.textContent = `${incomes}€`;
 
-  const out = movements
+  const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((accum, mov) => accum + mov, 0);
 
   labelSumOut.textContent = `${Math.abs(out)}€`;
-  const interest = movements
+  const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(deposits => (deposits * 1.2) / 100)
+    .map(deposits => (deposits * acc.interestRate) / 100)
     .filter(int => int >= 1)
     .reduce((accum, int) => accum + int, 0);
   labelSumInterest.textContent = `${interest}€`;
 };
-calcDisplaySummary(account1.movements);
+
 const createUserNames = function (accs) {
   accs.forEach(function (acc) {
     acc.username = acc.owner
@@ -115,13 +114,62 @@ const createUserNames = function (accs) {
 };
 
 createUserNames(accounts);
+const updateUI = function (acc) {
+  //Display movements
+  displayMovements(acc.movements);
+  //Display balance
+  calcDisplayBalance(acc);
+  // Display summary
+  calcDisplaySummary(acc);
+};
 //Event handler
+let currentAccount;
 btnLogin.addEventListener('click', function (e) {
   //prevent form from submiting
   e.preventDefault();
-  console.log('login');
-});
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    //Display UI and a welcome message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 100;
 
+    // clear input fields
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+    //Update UI
+    updateUI(currentAccount);
+
+    console.log('login');
+  }
+});
+console.log(accounts);
+
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const recieverAcc = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+  inputTransferAmount.value = inputTransferTo.value = '';
+  if (
+    amount > 0 &&
+    recieverAcc &&
+    currentAccount.balance >= amount &&
+    recieverAcc?.username !== currentAccount.username
+  ) {
+    //doing the transfer
+    currentAccount.movements.push(-amount);
+    recieverAcc.movements.push(amount);
+
+    //Update UI
+    updateUI(currentAccount);
+  }
+});
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -326,46 +374,67 @@ const calcAverageHumanAge = function (ages) {
 
 console.log(calcAverageHumanAge(ages1));
 console.log(calcAverageHumanAge(ages2));
-*/
 
-const eurTousd = 1.1;
-const totalDepositsUSD = movements
-  .filter(mov => mov > 0)
-  .map((mov, i, arr) => {
-    // console.log(arr);
-    return mov * eurTousd;
-  })
-  //.map(mov => mov * eurTousd)
-  .reduce((accum, mov) => accum + mov, 0);
-console.log(totalDepositsUSD);
+///////////////////////////////////////
+// The map Method
+const eurToUsd = 1.1;
 
-const ranNum = Math.trunc(Math.random() * 6) + 1;
-console.log(ranNum);
+// const movementsUSD = movements.map(function (mov) {
+  //   return mov * eurToUsd;
+  // });
+  
+  const movementsUSD = movements.map(mov => mov * eurToUsd);
+  
+  console.log(movements);
+  console.log(movementsUSD);
+  
+  const movementsUSDfor = [];
+  for (const mov of movements) movementsUSDfor.push(mov * eurToUsd);
+  console.log(movementsUSDfor);
+  
+  const movementsDescriptions = movements.map(
+    (mov, i) =>
+    `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+      mov
+      )}`
+      );
+      console.log(movementsDescriptions);
+      
+      ///////////////////////////////////////
+      // The filter Method
+      const deposits = movements.filter(function (mov, i, arr) {
+  return mov > 0;
+});
+console.log(movements);
+console.log(deposits);
 
-const calcAverageHumanAge = ages =>
-  ages
-    .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
-    .filter(age => age >= 18)
-    .reduce((accum, age, i, arr) => accum + age / arr.length, 0);
+const depositsFor = [];
+for (const mov of movements) if (mov > 0) depositsFor.push(mov);
+console.log(depositsFor);
 
-const avrg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
-const avrg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+const withdrawals = movements.filter(mov => mov < 0);
+console.log(withdrawals);
 
-console.log(avrg1, avrg2);
-
-const firstWithdrawal = movements.find(mov => mov < 0);
-
-console.log(firstWithdrawal);
+///////////////////////////////////////
+// The reduce Method
 console.log(movements);
 
-console.log(accounts);
+// accumulator -> SNOWBALL
+// const balance = movements.reduce(function (acc, cur, i, arr) {
+//   console.log(`Iteration ${i}: ${acc}`);
+//   return acc + cur;
+// }, 0);
+const balance = movements.reduce((acc, cur) => acc + cur, 0);
+console.log(balance);
 
-const acctsarah = accounts.find(acct => acct.owner === 'Sarah Smith');
+let balance2 = 0;
+for (const mov of movements) balance2 += mov;
+console.log(balance2);
 
-console.log(acctsarah);
-
-for (const acct of accounts) {
-  if (acct.owner === 'Sarah Smith') {
-    console.log(acct);
-  }
-}
+// Maximum value
+const max = movements.reduce((acc, mov) => {
+  if (acc > mov) return acc;
+  else return mov;
+}, movements[0]);
+console.log(max);
+*/
