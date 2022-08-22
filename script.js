@@ -170,6 +170,37 @@ btnTransfer.addEventListener('click', function (e) {
     updateUI(currentAccount);
   }
 });
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    //Add movement
+    currentAccount.movements.push(amount);
+    // Update UI
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = '';
+});
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    console.log(index);
+    //Delete account
+    accounts.splice(index, 1);
+    //Hide UI
+    containerApp.style.opacity = 0;
+  }
+  inputCloseUsername.value = inputClosePin.value = '';
+});
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -438,3 +469,21 @@ const max = movements.reduce((acc, mov) => {
 }, movements[0]);
 console.log(max);
 */
+//includes
+console.log(movements.includes(-49));
+
+//some
+const anyDeposits = movements.some(mov => mov > 5000);
+console.log(movements);
+console.log(anyDeposits);
+
+//every
+console.log(movements.every(mov => mov > 0));
+console.log(account4.movements.every(mov => mov > 0));
+
+const deposits = mov => mov > 0;
+console.log(movements.some(deposits));
+console.log(movements.filter(deposits));
+
+console.log(movements.every(deposits));
+
