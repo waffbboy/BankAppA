@@ -486,4 +486,6 @@ console.log(movements.some(deposits));
 console.log(movements.filter(deposits));
 
 console.log(movements.every(deposits));
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
 
+console.log(arrDeep.flat(2));
