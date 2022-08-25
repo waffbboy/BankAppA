@@ -489,3 +489,14 @@ console.log(movements.every(deposits));
 const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
 
 console.log(arrDeep.flat(2));
+
+movements.sort((a, b) => {
+  //retuen < 0 a,b
+  // return >0 b,a
+  if (a > b) {
+    return 1;
+  }
+  if (a < b) {
+    return -1;
+  }
+});
