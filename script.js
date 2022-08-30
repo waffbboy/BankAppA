@@ -511,3 +511,8 @@ movements.sort((a, b) => a - b);
 console.log(movements);
 
 */
+
+labelBalance.addEventListener('click', function () {
+  const movementUI = Array.from(document.querySelectorAll('.movements__value'));
+
+});
