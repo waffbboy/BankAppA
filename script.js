@@ -494,7 +494,7 @@ console.log(movements.filter(deposits));
 
 console.log(movements.every(deposits));
 const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
-
+const newArr9 = [123,4,5,6,7]
 console.log(arrDeep.flat(2));
 
 //movements.sort((a, b) => {
