@@ -513,7 +513,16 @@ console.log(movements);
 */
 
 labelBalance.addEventListener('click', function () {
-  const movementUI = Array.from(document.querySelectorAll('.movements__value'));
-
+  // console.log(movementUI.map(el => el.textContent.replace('€', ''))); this  can be replaced since the from() method
+  // uses a second argument which is like the map() method which is a call back function
+  const movementUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    el => Number(el.textContent.replace('€', ''))
+  );
   console.log(movementUI);
+
+  // Another way of creating an array from a NodeList is using the spread operator
+  const movementUI2 = [...document.querySelectorAll('.movements__value')];
+  //but in this case we must use the map() method if we want to work on individual element in the array
+  console.log(movementUI2.map(el => Number(el.textContent.replace('€', ''))));
 });
