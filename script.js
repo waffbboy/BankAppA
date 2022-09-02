@@ -526,3 +526,8 @@ labelBalance.addEventListener('click', function () {
   //but in this case we must use the map() method if we want to work on individual element in the array
   console.log(movementUI2.map(el => Number(el.textContent.replace('€', ''))));
 });
+
+
+
+
+
