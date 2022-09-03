@@ -531,6 +531,7 @@ labelBalance.addEventListener('click', function () {
 // using flatMap
 const bannkDepoitSum2 = accounts
   .flatMap(acc => acc.movements)
+  .filter(movP => movP > 0)
   .reduce((accum, curr, _) => accum + curr, 0);
 
 console.log(bannkDepoitSum2);
