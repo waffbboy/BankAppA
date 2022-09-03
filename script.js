@@ -535,6 +535,10 @@ const bannkDepoitSum2 = accounts
   .reduce((accum, curr, _) => accum + curr, 0);
 
 console.log(bannkDepoitSum2);
+// using reduce instead of filter method to check for numbers >= 1000 in accounts
+const numDeposits1000 = accounts
+  .flatMap(acct => acct.movements)
+  .reduce((count, curr) => (curr >= 1000 ? count + 1 : count), 0);
 
 
 
