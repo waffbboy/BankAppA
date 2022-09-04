@@ -552,5 +552,5 @@ const sum = accounts
     },
     { deposit: 0, withdrawal: 0 }
   );
-
+console.log(sum)
 
