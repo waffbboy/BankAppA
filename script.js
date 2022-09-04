@@ -543,4 +543,14 @@ const numDeposits1000 = accounts
 
 
 
+const sum = accounts
+  .flatMap(acct => acct.movements)
+  .reduce(
+    (sums, cur) => {
+      cur > 0 ? (sums.deposit += cur) : (sums.withdrawal += cur);
+      return sums; // sums is the object with sum of deposit and withdrawal
+    },
+    { deposit: 0, withdrawal: 0 }
+  );
+
 
