@@ -542,7 +542,6 @@ const numDeposits1000 = accounts
 
 
 
-
 const sum = accounts
   .flatMap(acct => acct.movements)
   .reduce(
