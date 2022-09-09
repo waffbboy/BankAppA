@@ -553,5 +553,18 @@ const sum = accounts
   );
 console.log(sum)
 
+const prtd = {
+  age: 12,
+  time: 14,
+  place: 16,
+};
+
+console.log(Object.entries(prtd));
+let valuesp = [];
+const valueQ = new Map(Object.entries(prtd)).forEach((value, key, _) => {
+  valuesp.push(value);
+  return console.log(`I am the ${value} , while ${key}`);
+});
+
 
 
