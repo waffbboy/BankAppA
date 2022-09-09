@@ -567,4 +567,4 @@ const valueQ = new Map(Object.entries(prtd)).forEach((value, key, _) => {
 });
 
 
-
+console.log(valuesp.reduce((accum, curr) => accum + curr, 0) / valuesp.length);
