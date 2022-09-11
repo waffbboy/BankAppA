@@ -572,3 +572,19 @@ const valueQ = new Map(Object.entries(prtd)).forEach((value, key, _) => {
 
 
 console.log(valuesp.reduce((accum, curr) => accum + curr, 0) / valuesp.length);
+
+
+const convertTitleCase = function (title) {
+  const capitalize = str => str[0].toUpperCase() + str.slice(1);
+  const exeptions = ['a', 'an', 'the', 'and', 'but', 'or', 'on', 'in', 'with']; //words that should not be capitalized
+  const titleCase = title
+    .toLowerCase()
+    .split(' ')
+    .map(word => (exeptions.includes(word) ? word : capitalize(word)))
+    .join(' ');
+  return capitalize(titleCase);
+};
+
+console.log(convertTitleCase('this is a nice title'));
+console.log(convertTitleCase('this is a LONG title but not too long'));
+console.log(convertTitleCase('and here is another title with an EXAMPLE'));
