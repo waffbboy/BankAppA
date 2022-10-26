@@ -448,10 +448,9 @@ console.log(+(2.567).toFixed(2));
 const nua = [1, 2, 3, 4, 5, 6, 7, , 8, 9, 10];
 const evenNum = nua.filter(a => a % 2 === 0);
 console.log(evenNum);
-*/
 
 console.log(Number.parseFloat('23px'));
 console.log(Math.trunc(2.44556777));
 console.log(+(3.455666).toFixed(2));
-
 console.log(account1);
+*/
